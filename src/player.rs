@@ -1,6 +1,9 @@
 use bevy::prelude::*;
 use bevy_inspector_egui::Inspectable;
 
+use crate::spritesheets::GabeSheet;
+use crate::spritesheets::ManiSheet;
+
 pub struct PlayerPlugin;
 
 impl Plugin for PlayerPlugin {
@@ -19,7 +22,12 @@ enum Direction {
     Left,
 }
 
-fn spawn_player_system(mut commands: Commands) {
+fn spawn_player_system(
+    mut commands: Commands,
+    gabe_sheet: Res<GabeSheet>,
+    mani_sheet: Res<ManiSheet>,
+) {
+    /*
     commands
         .spawn_bundle(SpriteBundle {
             transform: Transform::from_xyz(-200.0, 0.0, 1.0),
@@ -32,6 +40,36 @@ fn spawn_player_system(mut commands: Commands) {
         })
         .insert(Player)
         .insert(Direction::Right);
+    */
+    let gabe_entity = commands
+        .spawn_bundle(SpriteSheetBundle {
+            texture_atlas: gabe_sheet.0.clone(),
+            transform: Transform {
+                translation: Vec3::new(0.0, 0.0, 1.0),
+                scale: Vec3::splat(4.0),
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+        .insert(Player)
+        .insert(Direction::Right)
+        .id();
+
+    let mani_entity = commands
+        .spawn_bundle(SpriteSheetBundle {
+            texture_atlas: mani_sheet.0.clone(),
+            transform: Transform {
+                scale: Vec3::splat(1.0),
+                translation: Vec3::new(-30.0, 0.0, 1.0),
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+        .insert(Name::new("Follower"))
+        .insert(Direction::Right)
+        .id();
+
+    commands.entity(gabe_entity).push_children(&[mani_entity]);
 }
 
 fn move_player_system(

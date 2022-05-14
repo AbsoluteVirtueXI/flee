@@ -3,12 +3,12 @@ pub struct SpriteSheetsPlugin;
 
 impl Plugin for SpriteSheetsPlugin {
     fn build(&self, app: &mut App) {
-        app.add_startup_system(load_spritesheets);
+        app.add_startup_system_to_stage(StartupStage::PreStartup, load_spritesheets);
     }
 }
 
-pub struct GabeSheet(Handle<TextureAtlas>);
-pub struct ManiSheet(Handle<TextureAtlas>);
+pub struct GabeSheet(pub Handle<TextureAtlas>);
+pub struct ManiSheet(pub Handle<TextureAtlas>);
 
 pub fn load_spritesheets(
     mut commands: Commands,
