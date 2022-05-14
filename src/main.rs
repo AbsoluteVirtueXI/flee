@@ -2,6 +2,7 @@ use bevy::prelude::*;
 use flee::CameraPlugin;
 use flee::DebugPlugin;
 use flee::PlayerPlugin;
+use flee::SpriteSheetsPlugin;
 
 pub const BACKGROUND_COLOR: Color = Color::rgb(0.1, 0.1, 0.1);
 
@@ -11,6 +12,7 @@ fn main() {
         .add_plugins(DefaultPlugins)
         .add_plugin(DebugPlugin)
         .add_plugin(CameraPlugin)
+        .add_plugin(SpriteSheetsPlugin)
         .add_plugin(PlayerPlugin)
         .run();
 }
