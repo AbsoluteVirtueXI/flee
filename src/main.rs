@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use flee::AnimationPlugin;
 use flee::CameraPlugin;
 use flee::DebugPlugin;
 use flee::PlayerPlugin;
@@ -14,5 +15,6 @@ fn main() {
         .add_plugin(CameraPlugin)
         .add_plugin(SpriteSheetsPlugin)
         .add_plugin(PlayerPlugin)
+        .add_plugin(AnimationPlugin)
         .run();
 }

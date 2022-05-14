@@ -1,6 +1,7 @@
 use bevy::prelude::*;
 use bevy_inspector_egui::Inspectable;
 
+use crate::animation::AnimationTimer;
 use crate::spritesheets::GabeSheet;
 use crate::spritesheets::ManiSheet;
 
@@ -15,6 +16,9 @@ impl Plugin for PlayerPlugin {
 
 #[derive(Component, Inspectable)]
 pub(crate) struct Player;
+
+#[derive(Component, Inspectable)]
+pub(crate) struct Follower;
 
 #[derive(Component)]
 enum Direction {
@@ -53,6 +57,7 @@ fn spawn_player_system(
         })
         .insert(Player)
         .insert(Direction::Right)
+        .insert(AnimationTimer(Timer::from_seconds(0.1, true)))
         .id();
 
     let mani_entity = commands
@@ -65,13 +70,15 @@ fn spawn_player_system(
             },
             ..Default::default()
         })
-        .insert(Name::new("Follower"))
+        .insert(Follower)
         .insert(Direction::Right)
+        .insert(AnimationTimer(Timer::from_seconds(0.1, true)))
         .id();
 
     commands.entity(gabe_entity).push_children(&[mani_entity]);
 }
 
+// TODO: Put this in a plugin. A component for movable should be create
 fn move_player_system(
     mut query: Query<(&mut Transform, &mut Direction), With<Player>>,
     input: Res<Input<KeyCode>>,
