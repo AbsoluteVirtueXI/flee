@@ -49,7 +49,7 @@ fn spawn_player_system(
         .spawn_bundle(SpriteSheetBundle {
             texture_atlas: gabe_sheet.0.clone(),
             transform: Transform {
-                translation: Vec3::new(0.0, 0.0, 1.0),
+                translation: Vec3::new(0.0, 12.0 * 4.0, 1.0),
                 scale: Vec3::splat(4.0),
                 ..Default::default()
             },
